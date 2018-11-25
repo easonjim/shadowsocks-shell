@@ -87,7 +87,7 @@ get_latest_version(){
     [ -z ${ver} ] && echo "Error: Get shadowsocks-libev latest version failed" && exit 1
     shadowsocks_libev_ver="shadowsocks-libev-$(echo ${ver} | sed -e 's/^[a-zA-Z]//g')"
     download_link="https://github.com/shadowsocks/shadowsocks-libev/releases/download/${ver}/${shadowsocks_libev_ver}.tar.gz"
-    init_script_link="https://raw.githubusercontent.com/easonjim/centos-shell/master/shadowsocks/service-script.sh"
+    init_script_link="https://raw.githubusercontent.com/easonjim/shadowsocks-shell/master/service-script.sh"
 }
 
 check_installed(){
