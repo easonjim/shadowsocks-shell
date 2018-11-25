@@ -1,2 +1,2 @@
 # shadowsocks-shell
-shadowsocks install shell
+shadowsocks install shell for centos
