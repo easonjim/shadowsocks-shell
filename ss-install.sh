@@ -898,22 +898,7 @@ run(){
             ;;
         esac
     done
-    echo -e "Usage: ss-install [install|uninstall|install_server|install_server_default|install_local|...] [arg1]..."
-    echo -e "install                    : \033[41;37m only install shadowsocks-libev \033[0m"
-    echo -e "uninstall                  : \033[41;37m uninstall shadowsocks-libev \033[0m"
-    echo -e "install_server             : \033[41;37m install shadowsocks-libev and config server \033[0m"
-    echo -e "install_server_default     : \033[41;37m auto install shadowsocks-libev and set default config \033[0m"
-    echo -e "install_local              : \033[41;37m install shadowsocks-libev and config local \033[0m"
-    echo -e "   -arg:[--config-name]    : \033[41;37m       config name \033[0m"
-    echo -e "   -arg:[--service-name]   : \033[41;37m       service name \033[0m"
-    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name \033[0m"
-    echo -e "config_local               : \033[41;37m only config local \033[0m"
-    echo -e "   -arg:[--config-name]    : \033[41;37m       config name \033[0m"
-    echo -e "   -arg:[--service-name]   : \033[41;37m       service name \033[0m"
-    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name \033[0m"
-    echo -e "config_server              : \033[41;37m only config server \033[0m"
-    echo -e "show_config_list           : \033[41;37m show all config file \033[0m"
-    echo -e "show_service_list          : \033[41;37m show all service \033[0m"
+
     case ${action} in
     'install')
         install_shadowsocks_libev
@@ -944,3 +929,4 @@ run(){
         ;;
     esac
 }
+run
