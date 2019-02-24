@@ -851,7 +851,6 @@ uninstall_shadowsocks_libev(){
 
 # Initialization step
 print_use_help(){
-    clear
     echo
     echo -e "Usage: ss-install [install|uninstall|install_server|install_server_default|install_local|...] [arg1]..."
     echo -e "install                    : \033[41;37m only install shadowsocks-libev \033[0m"
@@ -881,7 +880,7 @@ print_use_help(){
 # setp
 main(){
     print_info
-    
+
     check_root
 
     action=$1
