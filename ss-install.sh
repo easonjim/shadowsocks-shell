@@ -932,4 +932,4 @@ main(){
         ;;
     esac
 }
-main
+main $#
