@@ -861,74 +861,71 @@ print_use_help(){
     echo
 }
 
-main(){
-    action=$1
-    while [ "$1" != "${1##[-+]}" ]; do
-        case $1 in
-        '')
-            print_use_help
-            return 1
-            ;;
-        --config_name)
-            config_name=$2
-            shift 2
-            ;;
-        --config_name=?*)
-            config_name=${1#--config_name=}
-            shift
-            ;;
-        --service_name)
-            service_name=$2
-            shift 2
-            ;;
-        --service_name=?*)
-            service_name=${1#--service_name=}
-            shift
-            ;;
-        --daemon_name)
-            daemon_name=$2
-            shift 2
-            ;;
-        --daemon_name=?*)
-            daemon_name=${1#--daemon_name=}
-            shift
-            ;;
-        *)
-            print_use_help
-            return 1
-            ;;
-        esac
-    done
-
-    case ${action} in
-    'install')
-        install_shadowsocks_libev
+# main
+action=$1
+while [ "$1" != "${1##[-+]}" ]; do
+    case $1 in
+    '')
+        print_use_help
+        return 1
         ;;
-    'uninstall')
-        uninstall_shadowsocks_libev
+    --config_name)
+        config_name=$2
+        shift 2
         ;;
-    'install_server')
-        install_shadowsocks_libev_and_config_server
+    --config_name=?*)
+        config_name=${1#--config_name=}
+        shift
         ;;
-    'install_server_default')
-        install_shadowsocks_libev_and_config_server_default
+    --service_name)
+        service_name=$2
+        shift 2
         ;;
-    'install_local')
-        install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name}
+    --service_name=?*)
+        service_name=${1#--service_name=}
+        shift
         ;;
-    'config_local')
-        config_local ${config_name} ${service_name} ${daemon_name}
+    --daemon_name)
+        daemon_name=$2
+        shift 2
         ;;
-    'config_server')
-        config_server
+    --daemon_name=?*)
+        daemon_name=${1#--daemon_name=}
+        shift
         ;;
-    'show_config_list')
-        ls -al /etc/shadowsocks-libev/*
-        ;;
-    'show_service_list')
-        cat /etc/shadowsocks-libev/service-name.log
+    *)
+        print_use_help
+        return 1
         ;;
     esac
-}
+done
 
-main
+case ${action} in
+'install')
+    install_shadowsocks_libev
+    ;;
+'uninstall')
+    uninstall_shadowsocks_libev
+    ;;
+'install_server')
+    install_shadowsocks_libev_and_config_server
+    ;;
+'install_server_default')
+    install_shadowsocks_libev_and_config_server_default
+    ;;
+'install_local')
+    install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name}
+    ;;
+'config_local')
+    config_local ${config_name} ${service_name} ${daemon_name}
+    ;;
+'config_server')
+    config_server
+    ;;
+'show_config_list')
+    ls -al /etc/shadowsocks-libev/*
+    ;;
+'show_service_list')
+    cat /etc/shadowsocks-libev/service-name.log
+    ;;
+esac
