@@ -731,7 +731,6 @@ firewall_set_ss_server(){
 
 # Install Shadowsocks-libev
 install_shadowsocks_libev(){
-    go_start
     disable_selinux
     pre_install
     download_files
@@ -741,6 +740,7 @@ install_shadowsocks_libev(){
 # only config server
 config_server(){
     config_server_file "ss-server"
+    go_start
     config_service_file_and_start "ss-server" "${config_server_file}" "ss-server" 
     print_server_installed_info 
 }
@@ -748,6 +748,7 @@ config_server(){
 # Install Shadowsocks-libev and config server
 install_shadowsocks_libev_and_config_server(){
     config_server_file "ss-server"
+    go_start
     disable_selinux 
     pre_install
     download_files
@@ -783,6 +784,7 @@ install_shadowsocks_libev_and_config_server_auto(){
 # $1-config name $2-service name $3-daemon name
 install_shadowsocks_libev_and_config_local(){
     config_server_file $1
+    go_start
     disable_selinux 
     pre_install
     download_files
@@ -795,6 +797,7 @@ install_shadowsocks_libev_and_config_local(){
 # $1-config name $2-service name $3-daemon name
 config_local(){
     config_server_file $1
+    go_start
     config_service_file_and_start $2 "${config_local_file}" $3  
     cat ${config_local_file}
 }
