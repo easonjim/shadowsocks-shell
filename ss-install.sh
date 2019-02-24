@@ -3,44 +3,44 @@
 # shadowsocks-libev install shell 
 
 # defind environment 
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
+# PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+# export PATH
 
-# Current folder
-cur_dir=`pwd`
+# # Current folder
+# cur_dir=`pwd`
 
-libsodium_file="libsodium-1.0.16"
-libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz"
+# libsodium_file="libsodium-1.0.16"
+# libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz"
 
-mbedtls_file="mbedtls-2.13.0"
-mbedtls_url="https://tls.mbed.org/download/mbedtls-2.13.0-gpl.tgz"
+# mbedtls_file="mbedtls-2.13.0"
+# mbedtls_url="https://tls.mbed.org/download/mbedtls-2.13.0-gpl.tgz"
 
-# Stream Ciphers
-ciphers=(
-aes-256-gcm
-aes-192-gcm
-aes-128-gcm
-aes-256-ctr
-aes-192-ctr
-aes-128-ctr
-aes-256-cfb
-aes-192-cfb
-aes-128-cfb
-camellia-128-cfb
-camellia-192-cfb
-camellia-256-cfb
-xchacha20-ietf-poly1305
-chacha20-ietf-poly1305
-chacha20-ietf
-chacha20
-salsa20
-rc4-md5
-)
-# Color
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
-plain='\033[0m'
+# # Stream Ciphers
+# ciphers=(
+# aes-256-gcm
+# aes-192-gcm
+# aes-128-gcm
+# aes-256-ctr
+# aes-192-ctr
+# aes-128-ctr
+# aes-256-cfb
+# aes-192-cfb
+# aes-128-cfb
+# camellia-128-cfb
+# camellia-192-cfb
+# camellia-256-cfb
+# xchacha20-ietf-poly1305
+# chacha20-ietf-poly1305
+# chacha20-ietf
+# chacha20
+# salsa20
+# rc4-md5
+# )
+# # Color
+# red='\033[0;31m'
+# green='\033[0;32m'
+# yellow='\033[0;33m'
+# plain='\033[0m'
 
 # Make sure only root can run our script
 check_root(){
