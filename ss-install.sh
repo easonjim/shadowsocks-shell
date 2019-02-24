@@ -15,13 +15,6 @@ libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.16/li
 mbedtls_file="mbedtls-2.13.0"
 mbedtls_url="https://tls.mbed.org/download/mbedtls-2.13.0-gpl.tgz"
 
-# shadowsocks-libev
-download_link=
-shadowsocks_libev_ver=
-ver=
-installed_ver=
-latest_ver=
-
 # Stream Ciphers
 ciphers=(
 aes-256-gcm
