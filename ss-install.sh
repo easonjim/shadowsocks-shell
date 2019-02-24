@@ -897,7 +897,7 @@ main(){
         esac
     done
 
-    echo ${action} ${config_name}
+    echo ${action} ${$2}
 
     case ${action} in
     'install')
