@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 
-# functions
+# shadowsocks-libev install shell 
 
 # defind environment 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
@@ -679,7 +679,7 @@ install_shadowsocks(){
     make && make install
     if [ $? -eq 0 ]; then
         echo
-        echo -e "[${red}Error${plain}] Shadowsocks-libev install success!"
+        echo -e "[${green}Info${plain}] Shadowsocks-libev install success!"
     else
         echo
         echo -e "[${red}Error${plain}] Shadowsocks-libev install failed."
@@ -735,6 +735,7 @@ firewall_set_ss_server(){
 
 # Install Shadowsocks-libev
 install_shadowsocks_libev(){
+    go_start
     disable_selinux
     pre_install
     download_files
@@ -860,7 +861,7 @@ print_use_help(){
     echo
 }
 
-run(){
+main(){
     action=$1
     while [ "$1" != "${1##[-+]}" ]; do
         case $1 in
@@ -929,4 +930,5 @@ run(){
         ;;
     esac
 }
-run
+
+main
