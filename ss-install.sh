@@ -44,7 +44,7 @@ plain='\033[0m'
 
 # Make sure only root can run our script
 check_root(){
-    [[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] This script must be run as root!" && exit 1
+    # [[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] This script must be run as root!" && exit 1
 }
 
 # Disable selinux
