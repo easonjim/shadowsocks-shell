@@ -880,6 +880,8 @@ print_use_help(){
 }
 # setp
 main(){
+    print_info
+    
     check_root
 
     action=$1
