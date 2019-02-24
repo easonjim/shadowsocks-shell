@@ -897,6 +897,8 @@ main(){
         esac
     done
 
+    echo ${action}
+
     case ${action} in
     'install')
         install_shadowsocks_libev
