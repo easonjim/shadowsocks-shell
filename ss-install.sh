@@ -411,6 +411,7 @@ config_server_file_default(){
 EOF
 }
 
+# $1-config file name 
 config_local_file(){
     # Set shadowsocks-libev config server ip
     dip="8.8.8.8"
@@ -425,6 +426,37 @@ config_local_file(){
 
     # base config
     config_file
+    
+    # config-file
+    if [ ! -d /etc/shadowsocks-libev ]; then
+        mkdir -p /etc/shadowsocks-libev
+    fi
+    local_config_file="/etc/shadowsocks-libev/ss-local-config.json"
+    [ ! -z "$1" ] && local_config_file="/etc/shadowsocks-libev/$1-config.json"
+    cat > ${local_config_file}<<-EOF
+{
+    "server": "${shadowsocksip}",
+    "server_port": ${shadowsocksport},
+    "method": "${shadowsockscipher}",
+    "password": "${shadowsockspwd}",
+    "local_address": "0.0.0.0",
+    "local_port": ${shadowsockslocalport},
+    "fast_open": ${fast_open},
+    "workers": 1
+}
+EOF
+}
+
+# $1-config file name $2-shadowsocksip $3-shadowsocksport $4-shadowsockspwd $5-shadowsockscipher
+config_local_file_default(){
+    shadowsocksip=$2
+    [ -z "$2" ] && shadowsocksip="8.8.8.8"
+    shadowsocksport=$3
+    [ -z "$3" ] && shadowsocksport=16028
+    shadowsockspwd=$4
+    [ -z "$4" ] && shadowsockspwd="P@ssw0rd1234561"
+    shadowsockscipher=$5
+    [ -z "$5" ] && shadowsockscipher="aes-192-cfb"
     
     # config-file
     if [ ! -d /etc/shadowsocks-libev ]; then
@@ -693,7 +725,6 @@ install_shadowsocks(){
 }
 
 print_server_installed_info(){
-    clear
     echo
     echo -e "Congratulations, Shadowsocks-libev server install completed!"
     echo -e "Your Server IP        : \033[41;37m $(get_ip) \033[0m"
@@ -776,37 +807,50 @@ install_shadowsocks_libev_and_config_server_default(){
 }
 
 # Install Shadowsocks-libev and config server auto config
-# $1-config file name $2-shadowsocksport $3-shadowsockspwd $4-shadowsockscipher
+# $1-config file name $2-service name $3-shadowsocksport $4-shadowsockspwd $5-shadowsockscipher
 install_shadowsocks_libev_and_config_server_auto(){
-    config_server_file_default $1 $2 $3 $4
+    config_server_file_default $1 $3 $4 $5
     disable_selinux 
     pre_install
     download_files
     install_shadowsocks
-    config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
+    config_service_file_and_start $2 "${server_config_file}" "ss-server" 
     print_server_installed_info 
 }
 
 # Install Shadowsocks-libev and config local
 # $1-config name $2-service name $3-daemon name
 install_shadowsocks_libev_and_config_local(){
-    config_server_file $1
+    config_local_file $1
     go_start
     disable_selinux 
     pre_install
     download_files
     install_shadowsocks
-    config_service_file_and_start $2 "${config_local_file}" $3  
-    cat ${config_local_file}
+    config_service_file_and_start `[ -z "$2" ] && echo "ss-local" || echo $2` "${local_config_file}" `[ -z "$3" ] && echo "ss-local" || echo $3`
+    cat ${local_config_file}
+}
+
+# Install Shadowsocks-libev and config local auto
+# $1-config name $2-service name $3-daemon name $4-shadowsocksip $5-shadowsocksport $6-shadowsockspwd $7-shadowsockscipher
+install_shadowsocks_libev_and_config_local_auto(){
+    config_local_file $1 $4 $5 $6 $7 
+    go_start
+    disable_selinux 
+    pre_install
+    download_files
+    install_shadowsocks
+    config_service_file_and_start `[ -z "$2" ] && echo "ss-local" || echo $2` "${local_config_file}" `[ -z "$3" ] && echo "ss-local" || echo $3`
+    cat ${local_config_file}
 }
 
 # only config local
 # $1-config name $2-service name $3-daemon name
 config_local(){
-    config_server_file $1
+    config_local_file $1
     go_start
-    config_service_file_and_start $2 "${config_local_file}" $3  
-    cat ${config_local_file}
+    config_service_file_and_start `[ -z "$2" ] && echo "ss-local" || echo $2` "${local_config_file}" `[ -z "$3" ] && echo "ss-local" || echo $3`     
+    cat ${local_config_file}
 }
 
 # Uninstall Shadowsocks-libev
@@ -866,18 +910,27 @@ print_use_help(){
     echo -e "install_server             : \033[41;37m install shadowsocks-libev and config server \033[0m"
     echo -e "install_server_default     : \033[41;37m auto install shadowsocks-libev and set default config \033[0m"
     echo -e "install_server_auto        : \033[41;37m auto install shadowsocks-libev and auto config \033[0m"
-    echo -e "   -arg:[--config-name]    : \033[41;37m       config name \033[0m"
-    echo -e "   -arg:[--port]           : \033[41;37m       port \033[0m"
-    echo -e "   -arg:[--password]       : \033[41;37m       password \033[0m"
-    echo -e "   -arg:[--cipher]         : \033[41;37m       cipher \033[0m"
+    echo -e "   -arg:[--config-name]    : \033[41;37m       config name,default is ss-server \033[0m"
+    echo -e "   -arg:[--service-name]   : \033[41;37m       service name,default is ss-server \033[0m"
+    echo -e "   -arg:[--port]           : \033[41;37m       port,default is 16028 \033[0m"
+    echo -e "   -arg:[--password]       : \033[41;37m       password,default is P@ssw0rd1234561 \033[0m"
+    echo -e "   -arg:[--cipher]         : \033[41;37m       cipher,default is aes-192-cfb \033[0m"
     echo -e "install_local              : \033[41;37m install shadowsocks-libev and config local \033[0m"
-    echo -e "   -arg:[--config-name]    : \033[41;37m       config name \033[0m"
-    echo -e "   -arg:[--service-name]   : \033[41;37m       service name \033[0m"
-    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name \033[0m"
+    echo -e "   -arg:[--config-name]    : \033[41;37m       config name,default is ss-local \033[0m"
+    echo -e "   -arg:[--service-name]   : \033[41;37m       service name,default is ss-local \033[0m"
+    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name,default is ss-local \033[0m"
+    echo -e "install_local_auto         : \033[41;37m install shadowsocks-libev and auto config local \033[0m"
+    echo -e "   -arg:[--config-name]    : \033[41;37m       config name,default is ss-local \033[0m"
+    echo -e "   -arg:[--service-name]   : \033[41;37m       service name,default is ss-local \033[0m"
+    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name,default is ss-local \033[0m"
+    echo -e "   -arg:[--server-ip]      : \033[41;37m       server ip,default is 8.8.8.8 \033[0m"
+    echo -e "   -arg:[--port]           : \033[41;37m       port,default is 16028 \033[0m"
+    echo -e "   -arg:[--password]       : \033[41;37m       password,default is P@ssw0rd1234561 \033[0m"
+    echo -e "   -arg:[--cipher]         : \033[41;37m       cipher,default is aes-192-cfb \033[0m"
     echo -e "config_local               : \033[41;37m only config local \033[0m"
-    echo -e "   -arg:[--config-name]    : \033[41;37m       config name \033[0m"
-    echo -e "   -arg:[--service-name]   : \033[41;37m       service name \033[0m"
-    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name \033[0m"
+    echo -e "   -arg:[--config-name]    : \033[41;37m       config name,default is ss-local \033[0m"
+    echo -e "   -arg:[--service-name]   : \033[41;37m       service name,default is ss-local \033[0m"
+    echo -e "   -arg:[--daemon-name]    : \033[41;37m       daemon name,default is ss-local \033[0m"
     echo -e "config_server              : \033[41;37m only config server \033[0m"
     echo -e "show_config_list           : \033[41;37m show all config file \033[0m"
     echo -e "show_service_list          : \033[41;37m show all service \033[0m"
@@ -943,6 +996,14 @@ main(){
             cipher=${1#--cipher=}
             shift
             ;;
+        --server_ip)
+            server_ip=$2
+            shift 2
+            ;;
+        --server_ip=?*)
+            server_ip=${1#--server_ip=}
+            shift
+            ;;
         esac
     done
 
@@ -963,10 +1024,13 @@ main(){
         install_shadowsocks_libev_and_config_server_default
         ;;
     'install_server_auto')
-        install_shadowsocks_libev_and_config_server_auto ${config_name} ${port} ${password} ${cipher}
+        install_shadowsocks_libev_and_config_server_auto ${config_name} ${service_name} ${port} ${password} ${cipher}
         ;;
     'install_local')
         install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name}
+        ;;
+    'install_local_auto')
+        install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name} ${server_ip} ${port} ${password} ${cipher}
         ;;
     'config_local')
         config_local ${config_name} ${service_name} ${daemon_name}
