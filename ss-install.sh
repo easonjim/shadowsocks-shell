@@ -1047,7 +1047,7 @@ main(){
     'clear_download_files')
         clear_download_files
         ;;
-    *)
+    *|help)
         print_use_help
         ;;
     esac
