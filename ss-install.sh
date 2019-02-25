@@ -10,10 +10,10 @@ export PATH
 cur_dir=`pwd`
 
 libsodium_file="libsodium-1.0.16"
-libsodium_url="https://raw.githubusercontent.com/easonjim/shadowsocks-shell/master/lib_file/libsodium-1.0.16.tar.gz"
+libsodium_url="https://github.com/easonjim/shadowsocks-shell/releases/download/lib-file/libsodium-1.0.16.tar.gz"
 
 mbedtls_file="mbedtls-2.13.0"
-mbedtls_url="https://raw.githubusercontent.com/easonjim/shadowsocks-shell/master/lib_file/mbedtls-2.13.0-gpl.tgz"
+mbedtls_url="https://github.com/easonjim/shadowsocks-shell/releases/download/lib-file/mbedtls-2.13.0-gpl.tgz"
 
 # Stream Ciphers
 ciphers=(
@@ -748,7 +748,7 @@ install_shadowsocks_libev(){
 config_server(){
     config_server_file "ss-server"
     go_start
-    config_service_file_and_start "ss-server" "${config_server_file}" "ss-server" 
+    config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
     print_server_installed_info 
 }
 
@@ -760,7 +760,7 @@ install_shadowsocks_libev_and_config_server(){
     pre_install
     download_files
     install_shadowsocks
-    config_service_file_and_start "ss-server" "${config_server_file}" "ss-server" 
+    config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
     print_server_installed_info 
 }
 
@@ -771,7 +771,7 @@ install_shadowsocks_libev_and_config_server_default(){
     pre_install
     download_files
     install_shadowsocks
-    config_service_file_and_start "ss-server" "${config_server_file}" "ss-server" 
+    config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
     print_server_installed_info 
 }
 
@@ -783,7 +783,7 @@ install_shadowsocks_libev_and_config_server_auto(){
     pre_install
     download_files
     install_shadowsocks
-    config_service_file_and_start "ss-server" "${config_server_file}" "ss-server" 
+    config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
     print_server_installed_info 
 }
 
@@ -975,7 +975,7 @@ main(){
         config_server
         ;;
     'show_config_list')
-        ls -al /etc/shadowsocks-libev/*
+        ls /etc/shadowsocks-libev/*-config.json
         ;;
     'show_service_list')
         cat /etc/shadowsocks-libev/service-name.log
