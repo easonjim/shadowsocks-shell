@@ -903,7 +903,8 @@ uninstall_shadowsocks_libev(){
 # Initialization step
 print_use_help(){
     echo
-    echo -e "Usage: ss-install [install|uninstall|install_server|install_server_default|install_local|...] [arg1]..."
+    echo -e "Usage: ss-install [help|install|uninstall|install_server|install_server_default|install_local|...] [arg1]..."
+    echo -e "help                       : \033[41;37m print this help info \033[0m"
     echo -e "install                    : \033[41;37m only install shadowsocks-libev \033[0m"
     echo -e "update                     : \033[41;37m only update shadowsocks-libev \033[0m"
     echo -e "uninstall                  : \033[41;37m uninstall shadowsocks-libev \033[0m"
