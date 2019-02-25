@@ -861,7 +861,7 @@ install_shadowsocks_libev_and_config_local(){
 # Install Shadowsocks-libev and config local auto
 # $1-config name $2-service name $3-daemon name $4-shadowsocksip $5-shadowsocksport $6-shadowsockspwd $7-shadowsockscipher
 install_shadowsocks_libev_and_config_local_auto(){
-    config_local_file $1 $4 $5 $6 $7 
+    config_local_file_default $1 $4 $5 $6 $7 
     go_start
     disable_selinux 
     pre_install
@@ -1067,7 +1067,7 @@ main(){
         install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name}
         ;;
     'install_local_auto')
-        install_shadowsocks_libev_and_config_local ${config_name} ${service_name} ${daemon_name} ${server_ip} ${port} ${password} ${cipher} ${local_port}
+        install_shadowsocks_libev_and_config_local_auto ${config_name} ${service_name} ${daemon_name} ${server_ip} ${port} ${password} ${cipher} ${local_port}
         ;;
     'config_local')
         config_local ${config_name} ${service_name} ${daemon_name}
