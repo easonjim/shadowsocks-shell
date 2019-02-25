@@ -862,7 +862,6 @@ install_shadowsocks_libev_and_config_local(){
 # $1-config name $2-service name $3-daemon name $4-shadowsocksip $5-shadowsocksport $6-shadowsockspwd $7-shadowsockscipher
 install_shadowsocks_libev_and_config_local_auto(){
     config_local_file_default $1 $4 $5 $6 $7 
-    go_start
     disable_selinux 
     pre_install
     download_files
