@@ -819,6 +819,7 @@ install_shadowsocks_libev_and_config_server(){
     download_files
     install_shadowsocks
     config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
+    firewall_set_ss_server
     print_server_installed_info 
 }
 
@@ -830,6 +831,7 @@ install_shadowsocks_libev_and_config_server_default(){
     download_files
     install_shadowsocks
     config_service_file_and_start "ss-server" "${server_config_file}" "ss-server" 
+    firewall_set_ss_server
     print_server_installed_info 
 }
 
@@ -842,6 +844,7 @@ install_shadowsocks_libev_and_config_server_auto(){
     download_files
     install_shadowsocks
     config_service_file_and_start $2 "${server_config_file}" "ss-server" 
+    firewall_set_ss_server
     print_server_installed_info 
 }
 
