@@ -848,7 +848,6 @@ install_shadowsocks_libev_and_config_server_auto(){
 # Install Shadowsocks-libev and config local
 # $1-config name $2-service name $3-daemon name
 install_shadowsocks_libev_and_config_local(){
-    echo hello
     config_local_file $1
     go_start
     disable_selinux 
