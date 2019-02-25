@@ -424,6 +424,9 @@ config_local_file(){
     echo "---------------------------"
     echo
 
+    # base config
+    config_file
+    
     # Set shadowsocks-libev config local port
     lport="1080"
     echo "Please enter local port for shadowsocks-libev:"
@@ -435,9 +438,6 @@ config_local_file(){
     echo "---------------------------"
     echo
 
-    # base config
-    config_file
-    
     # fast_open
     if check_kernel_version && check_kernel_headers; then
         fast_open="true"
