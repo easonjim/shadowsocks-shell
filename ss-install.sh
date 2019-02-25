@@ -603,10 +603,15 @@ download_files(){
 }
 
 clear_download_files(){
+    clear
     cd ${cur_dir}
     rm -rf "${shadowsocks_libev_ver}.tar.gz"
     rm -rf "${libsodium_file}.tar.gz"
     rm -rf "${mbedtls_file}-gpl.tgz"
+    if [ -z ${shadowsocks_libev_ver} ]; then
+        rm -rf *.tar.gz
+        rm -rf *.tgz
+    fi
 }
 
 go_start(){
